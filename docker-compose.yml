@@ -20,8 +20,8 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_PASSWORD: postgres1320
-      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 
+      POSTGRES_USER: 
       POSTGRES_DB: plant_shop_db
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
@@ -29,7 +29,7 @@ services:
   nginx:
     image: nginx
     ports:
-      - 81:80
+      - 80:80
       - 443:443
     volumes:
       - ./static:/home/app/web/static
