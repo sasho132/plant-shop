@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+    <section>
+        <main class="padding-top">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 pt-5 justify-content-center">
+                {% for category in links %}
+                    <div class="col mb-5 pt-5">
+                        <div class="card h-100 shadow">
+                            <a href="{{ category.get_url }}">
+                                <img class="card-img-top" src="{{ category.image.url }}"
+                                     alt=""/>
+                            </a>
+                            <div class="card-body p-6 border">
+                                <div class="text-center">
+                                    <h3 class="fw-bolder">{{ category.name }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </main>
+    </section>
+
+{% endblock %}

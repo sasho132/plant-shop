@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="container padding-top">
+        <div class="row">
+
+            <div class="col-md-6 col-md-offset-3 card shadow mx-auto p-3">
+                <div class="well well-sm">
+                    <form class="form-horizontal" action="" method="post">
+                        <div class="text-center pb-3 pt-1">
+                            <img src="{% static 'images/logo.png' %}" alt="logo" style="width: 50px">
+                        </div>
+                        <fieldset>
+                            <legend class="text-center">Contact us</legend>
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <div class="col-md-9 mx-auto m-3">
+                                    <input id="name" name="name" type="text" placeholder="Your name"
+                                           class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-9 mx-auto m-3">
+                                    <input id="email" name="email" type="text" placeholder="Your email"
+                                           class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-9 mx-auto m-3">
+                                    <textarea class="form-control" name="message"
+                                              placeholder="Please enter your message here..." rows="5"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group text-center mb-3">
+                                <div class="col-md-12 text-right mt-3">
+                                    <button type="submit" class="btn btn-success btn-lg w-75">Submit</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

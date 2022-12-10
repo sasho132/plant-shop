@@ -1,0 +1,41 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+    <main class="form-signin w-100 m-auto">
+        <form method="post" action="{% url 'login-user' %}">
+            <div class="text-center">
+                <img class="mb-4" src="{% static 'images/logo.png' %}" alt="" width="72" height="57">
+                <h1 class="h3 mb-3 fw-normal">Login</h1>
+                {% csrf_token %}
+
+                <div class="form-floating">
+                    {{ form.username }}
+                    <label for="floatingInput">Email address</label>
+                </div>
+                <div class="form-floating">
+                    {{ form.password }}
+                    <label for="floatingPassword">Password</label>
+                </div>
+                {% if form.errors %}
+                <br>
+                <div class="ui-state-error">{{ form.errors }}</div>
+                {% endif %}
+                <br>
+
+                {#<div class="checkbox mt-3 mb-3">#}
+                {#<label>#}
+                {#<input type="checkbox" value="remember-me"> Remember me#}
+                {#</label>#}
+                {#</div>#}
+                <button class="w-100 btn btn-lg btn-primary shadow rounded" type="submit">Sign in</button>
+                <br>
+                <br>
+                <p>
+                    New Customer?
+                    <a href="{% url 'register-user' %}" id="customer-register-link">Create account</a>
+                </p>
+            </div>
+        </form>
+
+    </main>
+
+{% endblock %}

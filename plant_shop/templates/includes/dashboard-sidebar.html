@@ -1,0 +1,30 @@
+<aside class="col-md-3" id="dash-aside">
+    <ul class="list-group" id="dash-sidebar">
+        <li>
+            <a class="list-group-item {% if '/accounts/dashboard/' == request.path %}active{% endif %}
+         rounded-top" href="{% url 'dashboard' %}"> Dashboard
+            </a>
+        </li>
+        <li>
+            <a class="list-group-item {% if '/accounts/my-orders/' == request.path %}active{% endif %}"
+               href="{% url 'my-orders' %}"> My Orders
+            </a>
+        </li>
+        <li>
+            <a class="list-group-item {% if '/accounts/profile-edit/' == request.path %}active{% endif %}"
+               href="{% url 'profile-edit' %}"> Edit Profile
+            </a>
+        </li>
+        <li>
+            <a class="list-group-item rounded-bottom
+                {% if '/accounts/profile-password-change/' == request.path %}active{% endif %}"
+               href="{% url 'profile-password-change' %}">Change Password
+            </a>
+        </li>
+    </ul>
+    <br>
+    <a class="btn btn-light btn-block" href="{% url 'logout-user' %}">
+        <i class="bi bi-box-arrow-left"></i>
+        <span class="text">Log out</span>
+    </a>
+</aside>

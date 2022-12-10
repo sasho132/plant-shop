@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <section class="padding-top" id="products-section">
+        <div class="row mt-3 mb-4 button-group filter-button-group">
+            <div class="col d-flex justify-content-center" id="filter-menu">
+                <a href="{% url 'store' %}">
+                    <button type="button" class="btn btn-outline-dark mx-1">
+                        All Products
+                    </button>
+                </a>
+                {% for category in links %}
+                    <a href="{{ category.get_url }}">
+                        <button type="button" class="btn btn-outline-dark mx-1">
+                            {{ category.name }}
+                        </button>
+                    </a>
+                {% endfor %}
+
+            </div>
+        </div>
+        <div class="container px-4 px-lg-5 mt-5 pt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                {% for product in products %}
+                    <div class="col mb-5">
+                        <div class="card h-100 shadow">
+                            <!-- Sale badge-->
+                            {% if product.on_sale %}
+                                <div class="badge bg-dark text-white position-absolute"
+                                     style="top: 0.5rem; right: 0.5rem; font-size: large">
+                                    Sale
+                                </div>
+                            {% endif %}
+                            {% if not product.in_stock %}
+                                <div class="badge bg-dark text-white position-absolute"
+                                     style="top: 0.5rem; right: 0.5rem; font-size: large">
+                                    Out of stock
+                                </div>
+                            {% endif %}
+                            <!-- Product image-->
+                            <a href="{{ product.get_absolute_url }}">
+                                <img class="card-img-top" src="{{ product.image.url }}"
+                                     alt="{{ product.name }}"/>
+                            </a>
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h3 class="fw-bolder">{{ product.name }}</h3>
+                                    <!-- Product price-->
+                                    {% if product.on_sale %}
+                                        <span class="text-muted text-decoration-line-through">
+                                        ${{ product.price|floatformat:2 }}
+                                    </span>
+                                        ${{ product.on_sale_price|floatformat:2 }}
+                                    {% else %}
+                                        ${{ product.price|floatformat:2 }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    {% if product.in_stock %}
+                                        {% if request.user.is_authenticated %}
+                                            <button
+                                                    data-product="{{ product.id }}"
+                                                    data-action="add"
+                                                    class="btn btn-outline-dark mt-auto update-cart">
+                                                <i class="bi-cart-fill me-1"></i>
+                                                Add to cart
+                                            </button>
+                                        {% else %}
+                                            <a href="{% url 'login-user' %}">
+                                                <button class="btn btn-outline-dark mt-auto">
+                                                    <i class="bi-cart-fill me-1"></i>
+                                                    Add to cart
+                                                </button>
+                                            </a>
+                                        {% endif %}
+
+                                    {% else %}
+                                        <div type="text" class="form-control text-center w-100">
+                                            Out of stock
+                                        </div>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <ul class="pagination justify-content-center">
+        {% if products.has_previous %}
+            <li class="page-item active">
+                <a class="page-link" id="page-link-select-previous" href="?page={{ products.previous_page_number }}"
+                   tabindex="-1">Previous</a>
+            <li class="page-item"><a class="page-link" id="page-color"
+                                     href="?page={{ products.previous_page_number }}">{{ products.previous_page_number }}</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+        {% endif %}
+        <li class="page-item active">
+            <a class="page-link" id="page-link-select" href="#">
+                <span class="sr-only">{{ products.number }}</span>
+            </a>
+        </li>
+        {% if products.has_next %}
+            <li class="page-item"><a class="page-link" id="page-color" href="?page={{ products.next_page_number }}">
+                {{ products.next_page_number }}</a></li>
+            <li class="page-item">
+                <a class="page-link" id="page-color" href="?page={{ products.next_page_number }}">Next</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Next</a>
+        {% endif %}
+    </ul>
+
+{% endblock %}

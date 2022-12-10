@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- banner -->
+    <section class="banner_main">
+      <div class="container-fluid">
+        <div class="row d_flex">
+          <div class="col-md-5">
+            <div class="text-bg">
+              <h1>Grow your own favorite plant</h1>
+              <a href="{% url 'categories' %}">Shop</a>
+            </div>
+          </div>
+          <div class="col-md-7 padding_right1">
+            <div class="text-img">
+              <figure>
+                <img src="{% static 'images/plant-home.png' %}" alt="plant-img"/>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- end banner -->
+{% endblock %}

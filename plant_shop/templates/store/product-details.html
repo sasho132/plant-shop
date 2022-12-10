@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <section class="padding-top">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row gx-4 gx-lg-5 align-items-center">
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0"
+                                           src="{{ object.image.url }}" alt="{{ object.name }}"/></div>
+                <div class="col-md-6">
+                    <div class="small mb-1">{{ object.product_type|upper }}</div>
+                    <h1 class="display-5 fw-bolder">{{ object.name }}</h1>
+                    <div class="fs-5 mb-5">
+                        {% if object.on_sale %}
+                            <span class="text-decoration-line-through">${{ object.on_sale_price }}</span>
+                        {% endif %}
+                        <span>${{ object.price|floatformat:2 }}</span>
+                    </div>
+                    <p class="lead">{{ object.description }}</p>
+                    <br>
+                    <div class="d-flex">
+                        {% if object.in_stock %}
+                            {% if request.user.is_authenticated %}
+                                <button
+                                        data-product="{{ product.id }}"
+                                        data-action="add"
+                                        class="btn btn-outline-dark mt-auto update-cart">
+                                    <i class="bi-cart-fill me-1"></i>
+                                    Add to cart
+                                </button>
+                            {% else %}
+                                <a href="{% url 'login-user' %}">
+                                    <button class="btn btn-outline-dark mt-auto">
+                                        <i class="bi-cart-fill me-1"></i>
+                                        Add to cart
+                                    </button>
+                                </a>
+                            {% endif %}
+                        {% else %}
+                            <div type="text" class="form-control text-center w-25">
+                                Out of stock
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

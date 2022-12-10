@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+    <section class="section-content padding-top bg">
+
+        <div class="container">
+            <div class="row">
+                {% include 'includes/dashboard-sidebar.html' %}
+                <main class="col-md-9">
+                    <article class="card">
+                        <header class="card-header">
+                            <strong class="d-inline-block mr-3">Logged in as:</strong>
+                            <span>{{ user.full_name }}</span>
+                        </header>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Total Orders</h5>
+                                            <h4>{{ order_count }}</h4>
+                                            <button class="btn btn-outline-dark" id="orders-btn">
+                                                <a href="{% url 'my-orders' %}">View Orders</a>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <p class="mb-0">{{ user.email }}</p>
+                                            <p>{{ user.phone }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </main>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

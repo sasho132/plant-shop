@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+
+    <section class="section-content padding-y bg pt-5">
+        <div class="w-50 padding-top container">
+            <div class="card-body">
+                <div class="container text-center">
+                    <img class="mb-4" src="{% static 'images/logo.png' %}" alt="" width="72" height="57">
+                    <h1 class="card-title mb-3 text-center">Register</h1>
+                </div>
+                <form action="{% url 'register-user' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col form-group">
+                            <label for="">First name</label>
+                            <input type="text" name="first_name" class="form-control" required>
+                        </div>
+                        <div class="col form-group">
+                            <label for="">Last name</label>
+                            <input type="text" name="last_name" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col form-group">
+                            <label for="">Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col form-group">
+                            <label for="">Password</label>
+                            <input type="password" name="password1" class="form-control" required>
+                        </div>
+                        <div class="col form-group">
+                            <label for="">Password confirm</label>
+                            <input type="password" name="password2" class="form-control">
+                        </div>
+                    </div>
+
+                    {% if form.email.errors or form.non_field_errors %}
+                        <br>
+                        <div class="ui-state-error">{{ form.email.errors }}</div>
+                        <div class="ui-state-error">{{ form.non_field_errors }}</div>
+                    {% endif %}
+                    <br>
+                    <div class="container text-center mt-3">
+                    <button class="w-75 btn btn-lg btn-success shadow rounded" type="submit">Register</button>
+                    </div>
+                </form>
+                <p class="text-center mt-4">Have an account?
+                    <a href="{% url 'login-user' %}" style="color: #0aec98">Log In</a>
+                </p>
+            </div>
+        </div>
+
+    </section>
+{% endblock %}
+
+
