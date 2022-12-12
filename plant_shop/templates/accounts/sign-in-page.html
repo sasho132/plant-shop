@@ -16,19 +16,17 @@
                     <label for="floatingPassword">Password</label>
                 </div>
                 {% if form.errors %}
-                <br>
-                <div class="ui-state-error">{{ form.errors }}</div>
+                    <br>
+                    <div class="ui-state-error">{{ form.errors }}</div>
                 {% endif %}
                 <br>
 
-                {#<div class="checkbox mt-3 mb-3">#}
-                {#<label>#}
-                {#<input type="checkbox" value="remember-me"> Remember me#}
-                {#</label>#}
-                {#</div>#}
                 <button class="w-100 btn btn-lg btn-primary shadow rounded" type="submit">Sign in</button>
                 <br>
                 <br>
+                <p>
+                    <a href="{% url 'forgot-password' %}" class="float-right" id="pass-forgot">Forgot password?</a>
+                </p>
                 <p>
                     New Customer?
                     <a href="{% url 'register-user' %}" id="customer-register-link">Create account</a>

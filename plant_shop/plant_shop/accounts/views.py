@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic as views
@@ -7,6 +8,13 @@ from django.contrib.auth import views as auth_views, get_user_model, login
 from plant_shop.accounts.forms import SignInForm, SignUpForm, UserForm, UserProfileForm
 from plant_shop.accounts.models import UserProfile
 from plant_shop.orders.models import Order, OrderProduct
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
+from django.utils.html import strip_tags
+from django.conf import settings
 
 UserModel = get_user_model()
 
@@ -55,6 +63,7 @@ def my_orders_view(request):
     }
     return render(request, 'accounts/my-orders.html', context)
 
+
 @login_required
 def profile_edit_view(request):
     user_profile = get_object_or_404(UserProfile, user=request.user)
@@ -75,6 +84,7 @@ def profile_edit_view(request):
         'userprofile': user_profile,
     }
     return render(request, 'accounts/profile-edit.html', context)
+
 
 @login_required
 def change_password_view(request):
@@ -111,3 +121,68 @@ def order_detail_view(request, order_id):
         'order': order,
     }
     return render(request, 'accounts/order-detail.html', context)
+
+
+def forgot_password(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        if UserModel.objects.filter(email=email).exists():
+            user = UserModel.objects.filter(email__exact=email).get()
+            current_site = get_current_site(request)
+
+            email_content = render_to_string('accounts/reset_password_email.html', {
+                'user': user,
+                'domain': current_site,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user),
+            })
+
+            send_mail(
+                subject='Reset Your Password',
+                message=strip_tags(email_content),
+                html_message=email_content,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=(user.email,),
+            )
+
+            messages.success(request, 'Password reset email has been sent to your email address.')
+            return redirect('login-user')
+        else:
+            messages.error(request, 'Account does not exist!')
+            return redirect('forgot_password')
+    return render(request, 'accounts/forgot_password.html')
+
+
+def reset_password_validate(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = UserModel._default_manager.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
+        user = None
+
+    if user is not None and default_token_generator.check_token(user, token):
+        request.session['uid'] = uid
+        messages.success(request, 'Please reset your password')
+        return redirect('reset-password')
+    else:
+        messages.error(request, 'This link has been expired!')
+        return redirect('login-user')
+
+
+def reset_password(request):
+    if request.method == 'POST':
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+
+        if password == confirm_password:
+            uid = request.session.get('uid')
+            user = UserModel.objects.get(pk=uid)
+            user.set_password(password)
+            user.save()
+            messages.success(request, 'Password reset successful')
+            return redirect('login-user')
+        else:
+            messages.error(request, 'Password do not match!')
+            return redirect('reset-password')
+    else:
+        return render(request, 'accounts/reset_password.html')
