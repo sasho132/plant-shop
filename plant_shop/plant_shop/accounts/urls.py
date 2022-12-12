@@ -12,3 +12,5 @@ urlpatterns = [
     path('profile-password-change/', change_password_view, name='profile-password-change'),
     path('order-detail/<int:order_id>/', order_detail_view, name='order-detail'),
 ]
+
+from .signals import send_email_on_successful_sign_up

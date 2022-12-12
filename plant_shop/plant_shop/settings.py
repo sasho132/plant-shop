@@ -114,3 +114,16 @@ AUTH_USER_MODEL = 'accounts.AppUser'
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
+if DEBUG:
+    EMAIL_HOST = '127.0.0.1'
+    EMAIL_HOST_USER = ''
+    EMAIL_HOST_PASSWORD = ''
+    EMAIL_PORT = 1025
+    EMAIL_USE_TLS = False
+else:
+    EMAIL_BACKEND = 'django_mailjet.backends.MailjetBackend'
+    MAILJET_API_KEY = os.environ.get('MAILJET_API_KEY')
+    MAILJET_API_SECRET = os.environ.get('MAILJET_API_SECRET')
+
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
