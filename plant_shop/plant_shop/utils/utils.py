@@ -11,6 +11,7 @@ def total_cart_items_price(cart_items):
 
     return total
 
+
 def get_cart_items_quantity(card_items):
     return sum(item.quantity for item in card_items)
 
@@ -22,11 +23,3 @@ def get_current_date():
     d = datetime.date(yr, mt, dt)
     current_date = d.strftime("%Y%m%d")
     return current_date
-
-
-"""
-curl -v -X POST "https://api-m.sandbox.paypal.com/v1/oauth2/token" \
-    -u "<CLIENT_ID>:<CLIENT_SECRET>" \
-    -H "Content-Type: application/x-www-form-urlencoded" \
-    -d "grant_type=client_credentials"
-"""

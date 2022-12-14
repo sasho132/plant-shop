@@ -30,12 +30,10 @@ def products_view(request, slug=None):
     return render(request, 'store/products.html', context)
 
 
-
-
 class ProductDetailsView(views.DetailView):
     model = Product
     template_name = 'store/product-details.html'
 
 
-def contact_us_view(request):
-    return render(request, 'contact-us.html')
+class ContactUsView(views.TemplateView):
+    template_name = 'contact-us.html'

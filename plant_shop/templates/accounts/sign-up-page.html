@@ -36,14 +36,15 @@
                         </div>
                     </div>
 
-                    {% if form.email.errors or form.non_field_errors %}
+                    {% if form.errors %}
                         <br>
-                        <div class="ui-state-error">{{ form.email.errors }}</div>
-                        <div class="ui-state-error">{{ form.non_field_errors }}</div>
+                    {% for field in form %}
+                        <div class="ui-state-error">{{ field.errors }}</div>
+                    {% endfor %}
                     {% endif %}
                     <br>
                     <div class="container text-center mt-3">
-                    <button class="w-75 btn btn-lg btn-success shadow rounded" type="submit">Register</button>
+                        <button class="w-75 btn btn-lg btn-success shadow rounded" type="submit">Register</button>
                     </div>
                 </form>
                 <p class="text-center mt-4">Have an account?

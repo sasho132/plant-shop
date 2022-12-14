@@ -1,7 +1,5 @@
 import json
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.views import generic as views
 from django.shortcuts import render
 from plant_shop.cart.models import Cart, CartItem
 from plant_shop.store.models import Product
@@ -15,9 +13,11 @@ def _cart_id(request):
         cart = request.session.create()
     return cart
 
+
 def get_cart_items(cart):
-    cart_items =  CartItem.objects.filter(cart=cart, is_active=True).order_by('product_id')
+    cart_items = CartItem.objects.filter(cart=cart, is_active=True).order_by('product_id')
     return cart_items
+
 
 @login_required
 def cart_view(request, total=0, quantity=0):
@@ -43,8 +43,6 @@ def update_item(request):
     data = json.loads(request.body)
     productId = data['productId']
     action = data['action']
-    print('Action:', action)
-    print('productID:', productId)
     user = request.user
 
     product = Product.objects.filter(id=productId).get()

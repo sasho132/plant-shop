@@ -71,6 +71,7 @@ class UserForm(forms.ModelForm):
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'
 
+
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile

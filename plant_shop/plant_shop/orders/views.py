@@ -1,13 +1,16 @@
 import json
+
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+
 from plant_shop.cart.models import CartItem, Cart
 from plant_shop.cart.views import _cart_id
 from plant_shop.orders.forms import OrderForm
 from plant_shop.orders.models import Order, Payment, OrderProduct
 from plant_shop.store.models import Product
 from plant_shop.utils.utils import total_cart_items_price, get_cart_items_quantity, get_current_date
+
 
 @login_required
 def place_order(request, total=0, quantity=0):
@@ -54,7 +57,8 @@ def place_order(request, total=0, quantity=0):
 
             return render(request, 'orders/payments.html', context)
     else:
-         return redirect('cart:checkout')
+        return redirect('cart:checkout')
+
 
 @login_required
 def payments_view(request):
@@ -122,4 +126,3 @@ def order_complete_view(request):
 
     except (Payment.DoesNotExist, Order.DoesNotExist):
         return redirect('home-page')
-

@@ -1,20 +1,21 @@
+from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.contrib.sites.shortcuts import get_current_site
-from django.shortcuts import redirect, render, get_object_or_404
-from django.urls import reverse_lazy
-from django.views import generic as views
 from django.contrib.auth import views as auth_views, get_user_model, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail
+from django.shortcuts import redirect, render, get_object_or_404
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy
+from django.utils.encoding import force_bytes
+from django.utils.html import strip_tags
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.views import generic as views
+
 from plant_shop.accounts.forms import SignInForm, SignUpForm, UserForm, UserProfileForm
 from plant_shop.accounts.models import UserProfile
 from plant_shop.orders.models import Order, OrderProduct
-from django.template.loader import render_to_string
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes
-from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import send_mail
-from django.utils.html import strip_tags
-from django.conf import settings
 
 UserModel = get_user_model()
 
