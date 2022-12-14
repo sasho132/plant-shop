@@ -44,7 +44,6 @@ class SignInForm(auth_forms.AuthenticationForm):
             self.fields[field].widget.attrs['class'] = 'form-control shadow rounded'
 
     username = forms.CharField(
-        error_messages={'required': 'Please enter your email'},
         widget=forms.TextInput(
             attrs={
                 'placeholder': 'Email',
@@ -52,7 +51,6 @@ class SignInForm(auth_forms.AuthenticationForm):
         )
     )
     password = forms.CharField(
-        error_messages={'required': 'Please enter your password'},
         widget=forms.PasswordInput(
             attrs={
                 'placeholder': 'Password',
