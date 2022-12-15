@@ -5,6 +5,7 @@ from django.contrib.auth import models as auth_models
 from django.core.validators import MinLengthValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from plant_shop.utils.validators import validate_alphabet_characters
 
 
 class UserManager(BaseUserManager):
@@ -53,12 +54,18 @@ class AppUser(auth_models.AbstractBaseUser, PermissionsMixin):
 
     first_name = models.CharField(
         max_length=FIRST_NAME_MAX_LEN,
-        validators=(MinLengthValidator(FIRST_NAME_MIN_LEN),),
+        validators=(
+            MinLengthValidator(FIRST_NAME_MIN_LEN),
+            validate_alphabet_characters,
+        ),
     )
 
     last_name = models.CharField(
         max_length=LAST_NAME_MAX_LEN,
-        validators=(MinLengthValidator(LAST_NAME_MIN_LEN),),
+        validators=(
+            MinLengthValidator(LAST_NAME_MIN_LEN),
+            validate_alphabet_characters,
+        ),
     )
 
     is_staff = models.BooleanField(
