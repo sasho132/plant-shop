@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views import generic as views
+
+from plant_shop.store.forms import ContactForm
 from plant_shop.store.models import Product
 from django.core.paginator import Paginator
 
@@ -35,5 +37,7 @@ class ProductDetailsView(views.DetailView):
     template_name = 'store/product-details.html'
 
 
-class ContactUsView(views.TemplateView):
+class ContactUsView(views.FormView):
     template_name = 'contact-us.html'
+    form_class = ContactForm
+    success_url = '/'
