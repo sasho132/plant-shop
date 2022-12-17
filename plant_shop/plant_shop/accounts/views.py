@@ -157,7 +157,7 @@ def forgot_password(request):
 def reset_password_validate(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
-        user = UserModel._default_manager.get(pk=uid)
+        user = UserModel.objects.filter(pk=uid).get()
     except(TypeError, ValueError, OverflowError, UserModel.DoesNotExist):
         user = None
 

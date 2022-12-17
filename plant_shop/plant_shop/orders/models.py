@@ -5,6 +5,7 @@ from plant_shop.store.models import Product
 
 UserModel = get_user_model()
 
+
 class Payment(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     payment_id = models.CharField(max_length=100)
@@ -15,6 +16,7 @@ class Payment(models.Model):
 
     def __str__(self):
         return self.payment_id
+
 
 class Order(models.Model):
     STATUS = (
@@ -42,7 +44,6 @@ class Order(models.Model):
     is_ordered = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
 
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
