@@ -11,6 +11,9 @@ from plant_shop.orders.models import Order, Payment, OrderProduct
 from plant_shop.store.models import Product
 from plant_shop.utils.utils import total_cart_items_price, get_cart_items_quantity, get_current_date
 
+from plant_shop.accounts.views import order_detail_view
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 
 @login_required
 def place_order(request, total=0, quantity=0):
@@ -48,6 +51,11 @@ def place_order(request, total=0, quantity=0):
             data.save()
 
             order = Order.objects.filter(user=current_user, is_ordered=False, order_number=order_number).get()
+            user = request.user
+            content_type = ContentType.objects.get_for_model(order)
+            order_permission = Permission.objects.filter(content_type=content_type)
+            for perm in order_permission:
+                user.user_permissions.add(perm)
 
             context = {
                 'order': order,
