@@ -394,6 +394,7 @@ button {
 
 .text-img figure img {
     width: 100%;
+    max-height: 780px;
 }
 
 .text-img figure {
